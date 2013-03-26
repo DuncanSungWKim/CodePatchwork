@@ -35,6 +35,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using SharpSvn;
+
+
 namespace CodePatchwork
 {
     /// <summary>
@@ -45,6 +48,24 @@ namespace CodePatchwork
         public MainWindow()
         {
             InitializeComponent();
+
+            Uri url = new Uri("https://svn.webkit.org/repository/webkit/trunk/");
+            SvnClient client = new SvnClient();
+            try
+            {
+                client.Log(url, new EventHandler<SvnLogEventArgs>(OnEachLog));
+            }
+            catch( Exception e )
+            {
+            }
+        }
+
+
+        public void OnEachLog(Object a_sender, SvnLogEventArgs a_log)
+        {
+            long iRev = a_log.Revision;
+            string author = a_log.Author;
+            string msg = a_log.LogMessage;
         }
     }
 }

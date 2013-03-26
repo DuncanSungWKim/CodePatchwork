@@ -115,6 +115,7 @@ ClientBin/
 *.[Pp]ublish.xml
 *.pfx
 *.publishsettings
+pingme.txt
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -146,3 +147,8 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+# ==========================
+# Dependencies
+# ==========================
+SharpSvn/
