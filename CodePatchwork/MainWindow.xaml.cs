@@ -36,6 +36,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using SharpSvn;
+using SharpSvn.UI;
 
 
 namespace CodePatchwork
@@ -44,15 +45,17 @@ namespace CodePatchwork
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
+                                    , System.Windows.Forms.IWin32Window
     {
         public MainWindow()
         {
             InitializeComponent();
 
-            Uri url = new Uri("https://svn.webkit.org/repository/webkit/trunk/");
+            Uri url = new Uri("http://sharpsvn.open.collab.net/svn/sharpsvn/trunk");
             SvnClient client = new SvnClient();
             try
             {
+                SvnUI.Bind(client, this);
                 client.Log(url, new EventHandler<SvnLogEventArgs>(OnEachLog));
             }
             catch( Exception e )
@@ -66,6 +69,16 @@ namespace CodePatchwork
             long iRev = a_log.Revision;
             string author = a_log.Author;
             string msg = a_log.LogMessage;
+        }
+
+
+        public IntPtr Handle
+        {
+            get
+            {
+                var interopHelper = new System.Windows.Interop.WindowInteropHelper(this);
+                return interopHelper.Handle;
+            }
         }
     }
 }
