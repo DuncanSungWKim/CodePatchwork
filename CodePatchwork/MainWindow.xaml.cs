@@ -51,6 +51,8 @@ namespace CodePatchwork
         {
             InitializeComponent();
 
+            InitReposView();
+
             Uri url = new Uri("http://sharpsvn.open.collab.net/svn/sharpsvn/trunk");
             SvnClient client = new SvnClient();
             try
@@ -61,6 +63,17 @@ namespace CodePatchwork
             catch( Exception e )
             {
             }
+        }
+
+
+        private void InitReposView()
+        {
+            Repo[] repos =
+            {
+                new Repo() { Name = "Repo1" },
+                new Repo() { Name = "Repo2" } 
+            };
+            m_reopsView.DataContext = new { Repos = repos };
         }
 
 
