@@ -28,6 +28,7 @@
         <TreeView ItemsSource="{Binding Repos}" x:Name="m_reopsView" HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="195">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>

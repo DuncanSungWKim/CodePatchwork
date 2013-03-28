@@ -20,11 +20,23 @@
     at <https://github.com/DuncanSungWKim/CodePatchwork/issues>
 */
 
+using System.ComponentModel;
+
+
 namespace CodePatchwork
 {
     class Repo
     {
         public string Name
         { get; set; }
+
+        public bool IsSelected
+        {
+            set
+            {
+                if ( ! value)
+                    return;
+            }
+        }
     }
 }
