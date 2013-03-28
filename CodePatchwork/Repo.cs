@@ -20,23 +20,66 @@
     at <https://github.com/DuncanSungWKim/CodePatchwork/issues>
 */
 
+using System;
 using System.ComponentModel;
+
+using SharpSvn;
+using SharpSvn.UI;
 
 
 namespace CodePatchwork
 {
     class Repo
     {
+        public Repo(System.Windows.Forms.IWin32Window a_win)
+        {
+            SvnUI.Bind(m_client, a_win);
+        }
+
+
         public string Name
         { get; set; }
 
+
+        public string Uri
+        { get; set; }
+
+
+        public void OnEachLog(object a_sender, SvnLogEventArgs a_log)
+        {
+            long iRev = a_log.Revision;
+            string author = a_log.Author;
+            string msg = a_log.LogMessage;
+        }
+
+        private bool m_selected ;
         public bool IsSelected
         {
+            get { return m_selected; }
+
             set
             {
+                m_selected = true;
                 if ( ! value)
                     return;
+
+                LoadLog();
             }
         }
+
+
+        private void LoadLog()
+        {
+            try
+            {
+                m_client.Log(new Uri(this.Uri), new EventHandler<SvnLogEventArgs>(OnEachLog));
+            }
+            catch (Exception e)
+            {
+            }
+        }
+
+
+        private SvnClient m_client = new SvnClient();
     }
 }

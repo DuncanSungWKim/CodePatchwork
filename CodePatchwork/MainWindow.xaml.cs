@@ -52,17 +52,6 @@ namespace CodePatchwork
             InitializeComponent();
 
             InitReposView();
-
-            Uri url = new Uri("http://sharpsvn.open.collab.net/svn/sharpsvn/trunk");
-            SvnClient client = new SvnClient();
-            try
-            {
-                SvnUI.Bind(client, this);
-                client.Log(url, new EventHandler<SvnLogEventArgs>(OnEachLog));
-            }
-            catch( Exception e )
-            {
-            }
         }
 
 
@@ -70,18 +59,10 @@ namespace CodePatchwork
         {
             Repo[] repos =
             {
-                new Repo() { Name = "Repo1" },
-                new Repo() { Name = "Repo2" } 
+                new Repo(this) { Name = "Repo1", Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk" },
+                new Repo(this) { Name = "Repo2", Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk" } 
             };
             m_reopsView.DataContext = new { Repos = repos };
-        }
-
-
-        public void OnEachLog(Object a_sender, SvnLogEventArgs a_log)
-        {
-            long iRev = a_log.Revision;
-            string author = a_log.Author;
-            string msg = a_log.LogMessage;
         }
 
 
