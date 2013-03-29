@@ -45,11 +45,11 @@ namespace CodePatchwork
         { get; set; }
 
 
-        public void OnEachLog(object a_sender, SvnLogEventArgs a_log)
-        {
-            long iRev = a_log.Revision;
-            string author = a_log.Author;
-            string msg = a_log.LogMessage;
+        private CommitDataConsumer m_commitDataConsumer;
+        public CommitDataConsumer CommitDataConsumer {
+            set {
+                m_commitDataConsumer = value;
+            }
         }
 
         private bool m_selected ;
@@ -70,9 +70,11 @@ namespace CodePatchwork
 
         private void LoadLog()
         {
+            m_commitDataConsumer.Clear();
+
             try
             {
-                m_client.Log(new Uri(this.Uri), new EventHandler<SvnLogEventArgs>(OnEachLog));
+                m_client.Log( new Uri(this.Uri), new EventHandler<SvnLogEventArgs>(m_commitDataConsumer.OnEachLog) );
             }
             catch (Exception e)
             {

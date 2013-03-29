@@ -51,6 +51,8 @@ namespace CodePatchwork
         {
             InitializeComponent();
 
+            m_commitDataGridCtrlr.DataGrid = m_commitDataGrid;
+
             InitReposView();
         }
 
@@ -59,8 +61,16 @@ namespace CodePatchwork
         {
             Repo[] repos =
             {
-                new Repo(this) { Name = "Repo1", Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk" },
-                new Repo(this) { Name = "Repo2", Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk" } 
+                new Repo(this) {
+                    Name = "Repo1",
+                    Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk", 
+                    CommitDataConsumer = m_commitDataGridCtrlr
+                },
+                new Repo(this) {
+                    Name = "Repo2",
+                    Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk",
+                    CommitDataConsumer = m_commitDataGridCtrlr
+                } 
             };
             m_reopsView.DataContext = new { Repos = repos };
         }
@@ -74,5 +84,8 @@ namespace CodePatchwork
                 return interopHelper.Handle;
             }
         }
+
+
+        private CommitDataGridCtrlr m_commitDataGridCtrlr = new CommitDataGridCtrlr();
     }
 }
