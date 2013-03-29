@@ -74,12 +74,22 @@ namespace CodePatchwork
 
             try
             {
-                m_client.Log( new Uri(this.Uri), new EventHandler<SvnLogEventArgs>(m_commitDataConsumer.OnEachLog) );
+                SvnLogArgs logArgs = new SvnLogArgs() ;
+                logArgs.Start = SvnRevision.Head ;
+                logArgs.Limit = FETCH_COUNT;
+
+                m_client.Log( new Uri(this.Uri), logArgs, 
+                    new EventHandler<SvnLogEventArgs>(m_commitDataConsumer.OnEachLog) );
             }
             catch (Exception e)
             {
             }
         }
+
+
+    #region Constants
+        private const int FETCH_COUNT = 30;
+    #endregion
 
 
         private SvnClient m_client = new SvnClient();
