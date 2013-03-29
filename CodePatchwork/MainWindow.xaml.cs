@@ -34,9 +34,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using System.Windows.Forms;
 
 using SharpSvn;
 using SharpSvn.UI;
+
 
 
 namespace CodePatchwork
@@ -83,6 +86,14 @@ namespace CodePatchwork
                 var interopHelper = new System.Windows.Interop.WindowInteropHelper(this);
                 return interopHelper.Handle;
             }
+        }
+
+
+        private void Menu_AddNewRepo(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            if( System.Windows.Forms.DialogResult.OK != dlg.ShowDialog() )
+                return ;
         }
 
 

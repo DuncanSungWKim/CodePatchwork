@@ -25,7 +25,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="679">
     <Grid>
-        <TreeView ItemsSource="{Binding Repos}" x:Name="m_reopsView" HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="195">
+        <Menu HorizontalAlignment="Left" VerticalAlignment="Top">
+            <MenuItem Header="_Repository" Click="Menu_AddNewRepo">
+                <MenuItem Header="_Add New ..."/>
+            </MenuItem>
+        </Menu>
+        <TreeView ItemsSource="{Binding Repos}" x:Name="m_reopsView" HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="195" Margin="0,23,0,0">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
@@ -37,7 +42,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <DataGrid x:Name="m_commitDataGrid" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" Height="320" Width="262">
+        <DataGrid x:Name="m_commitDataGrid" HorizontalAlignment="Left" Margin="200,23,0,0" VerticalAlignment="Top" Height="297" Width="262">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
                 <DataGridTextColumn Binding="{Binding Commit}" ClipboardContentBinding="{x:Null}" Header="Commit"/>
