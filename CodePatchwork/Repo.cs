@@ -42,7 +42,7 @@ namespace CodePatchwork
         { get; set; }
 
 
-        public string Uri
+        public string Path
         { get; set; }
 
 
@@ -84,7 +84,7 @@ namespace CodePatchwork
                 logArgs.Start = SvnRevision.Head ;
                 logArgs.Limit = FETCH_COUNT;
 
-                m_client.Log( new Uri(this.Uri), logArgs, 
+                m_client.Log( Path, logArgs, 
                     new EventHandler<SvnLogEventArgs>(m_commitDataConsumer.OnEachLog) );
             }
             catch (Exception e)

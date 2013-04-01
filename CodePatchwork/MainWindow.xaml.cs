@@ -36,10 +36,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.Windows.Forms;
+using System.Collections.ObjectModel;
 
 using SharpSvn;
 using SharpSvn.UI;
-
 
 
 namespace CodePatchwork
@@ -62,20 +62,8 @@ namespace CodePatchwork
 
         private void InitReposView()
         {
-            Repo[] repos =
-            {
-                new Repo(this) {
-                    Name = "Repo1",
-                    Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk", 
-                    CommitDataConsumer = m_commitDataGridCtrlr
-                },
-                new Repo(this) {
-                    Name = "Repo2",
-                    Uri = "http://sharpsvn.open.collab.net/svn/sharpsvn/trunk",
-                    CommitDataConsumer = m_commitDataGridCtrlr
-                } 
-            };
-            m_reopsView.DataContext = new { Repos = repos };
+ 
+            m_reopsView.DataContext = new { Repos = m_repos };
         }
 
 
@@ -94,9 +82,18 @@ namespace CodePatchwork
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             if( System.Windows.Forms.DialogResult.OK != dlg.ShowDialog() )
                 return ;
+
+            Repo repo = new Repo(this) {
+                Name = dlg.SelectedPath,
+                Path = dlg.SelectedPath,
+                CommitDataConsumer = m_commitDataGridCtrlr
+            };
+
+            m_repos.Add( repo );
         }
 
 
         private CommitDataGridCtrlr m_commitDataGridCtrlr = new CommitDataGridCtrlr();
+        private ObservableCollection<Repo> m_repos = new ObservableCollection<Repo>();
     }
 }

@@ -26,8 +26,8 @@
         Title="MainWindow" Height="350" Width="679">
     <Grid>
         <Menu HorizontalAlignment="Left" VerticalAlignment="Top">
-            <MenuItem Header="_Repository" Click="Menu_AddNewRepo">
-                <MenuItem Header="_Add New ..."/>
+            <MenuItem Header="_File" Click="Menu_AddNewRepo">
+                <MenuItem Header="_Add New Repo..."/>
             </MenuItem>
         </Menu>
         <TreeView ItemsSource="{Binding Repos}" x:Name="m_reopsView" HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="195" Margin="0,23,0,0">
