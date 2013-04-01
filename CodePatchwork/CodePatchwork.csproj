@@ -63,6 +63,7 @@
     <Compile Include="CommitDataConsumer.cs" />
     <Compile Include="CommitDataGridCtrlr.cs" />
     <Compile Include="Repo.cs" />
+    <Compile Include="Repos.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
