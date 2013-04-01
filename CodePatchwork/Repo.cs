@@ -30,6 +30,7 @@ using SharpSvn.UI;
 namespace CodePatchwork
 {
     class Repo
+        : INotifyPropertyChanged
     {
         public Repo(System.Windows.Forms.IWin32Window a_win)
         {
@@ -59,7 +60,12 @@ namespace CodePatchwork
 
             set
             {
-                m_selected = true;
+                if (value != m_selected)
+                {
+                    m_selected = value;
+                    NotifyPropertyChanged("IsSelected");
+                }
+
                 if ( ! value)
                     return;
 
@@ -93,5 +99,17 @@ namespace CodePatchwork
 
 
         private SvnClient m_client = new SvnClient();
+
+
+    #region Candidates for the prospective base class
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+    #endregion
     }
 }
