@@ -21,6 +21,7 @@
 */
 
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Linq;
 
@@ -28,11 +29,29 @@ using System.Xml.Linq;
 namespace CodePatchwork
 {
     class Repos
+        : ObservableCollection<Repo>
     {
+        new public void Add( Repo a_newRepo )
+        {
+            XDocument xDoc = GetXDocument();
+            XElement xElem = xDoc.Element("Repos");
+
+            xElem.Add(
+                new XElement("Repo",
+                    new XElement("Name", a_newRepo.Name),
+                    new XElement("Path", a_newRepo.Path)
+                    )
+                );
+
+            xDoc.Save( GetFilePath() );
+
+            base.Add( a_newRepo ) ;
+        }
+
+
         public static XDocument GetXDocument()
         {
-            string appDataFolder = App.GetDataFolderPath() ;
-            string xmlFilePath = Path.Combine(appDataFolder, REPOS_XML_FILENAME);
+            string xmlFilePath = GetFilePath();
 
             XDocument xDoc;
 
@@ -53,6 +72,13 @@ namespace CodePatchwork
             }
  
             return xDoc;
+        }
+
+
+        private static string GetFilePath()
+        {
+            string appDataFolder = App.GetDataFolderPath();
+            return Path.Combine(appDataFolder, REPOS_XML_FILENAME);
         }
 
 

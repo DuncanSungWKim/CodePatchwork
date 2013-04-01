@@ -36,7 +36,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Microsoft.Win32;
 using System.Windows.Forms;
-using System.Collections.ObjectModel;
 
 using SharpSvn;
 using SharpSvn.UI;
@@ -95,6 +94,6 @@ namespace CodePatchwork
 
 
         private CommitDataGridCtrlr m_commitDataGridCtrlr = new CommitDataGridCtrlr();
-        private ObservableCollection<Repo> m_repos = new ObservableCollection<Repo>();
+        private Repos m_repos = new Repos() ;
     }
 }
