@@ -25,12 +25,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="679">
     <Grid>
-        <Menu HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Top">
             <MenuItem Header="_File" Click="Menu_AddNewRepo">
                 <MenuItem Header="_Add New Repo..."/>
             </MenuItem>
         </Menu>
-        <TreeView ItemsSource="{Binding}" x:Name="m_reopsView" HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="195" Margin="0,23,0,0">
+        <TreeView ItemsSource="{Binding}" x:Name="m_reopsView" Grid.Row="1" Grid.Column="0">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
@@ -42,7 +50,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <DataGrid x:Name="m_commitDataGrid" HorizontalAlignment="Left" Margin="200,23,0,0" VerticalAlignment="Top" Height="297" Width="262">
+        <DataGrid x:Name="m_commitDataGrid" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
                 <DataGridTextColumn Binding="{Binding Commit}" ClipboardContentBinding="{x:Null}" Header="Commit"/>
