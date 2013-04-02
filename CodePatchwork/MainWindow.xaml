@@ -31,9 +31,10 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Menu Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Top">
+        <Menu Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Top">
             <MenuItem Header="_File" Click="Menu_AddNewRepo">
                 <MenuItem Header="_Add New Repo..."/>
             </MenuItem>
@@ -50,7 +51,8 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <DataGrid x:Name="m_commitDataGrid" Grid.Row="1" Grid.Column="1">
+        <GridSplitter Grid.Row="1" Grid.Column="1" Width="3" ResizeBehavior="PreviousAndNext"/>
+        <DataGrid x:Name="m_commitDataGrid" Grid.Row="1" Grid.Column="2">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
                 <DataGridTextColumn Binding="{Binding Commit}" ClipboardContentBinding="{x:Null}" Header="Commit"/>
