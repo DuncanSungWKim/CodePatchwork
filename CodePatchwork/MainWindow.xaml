@@ -30,7 +30,7 @@
                 <MenuItem Header="_Add New Repo..."/>
             </MenuItem>
         </Menu>
-        <TreeView ItemsSource="{Binding Repos}" x:Name="m_reopsView" HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="195" Margin="0,23,0,0">
+        <TreeView ItemsSource="{Binding}" x:Name="m_reopsView" HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="195" Margin="0,23,0,0">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>

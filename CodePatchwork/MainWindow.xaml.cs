@@ -61,9 +61,9 @@ namespace CodePatchwork
 
         private void InitReposView()
         {
-            Repos.GetXDocument();
+            m_repos.Load( this, m_commitDataGridCtrlr );
  
-            m_reopsView.DataContext = new { Repos = m_repos };
+            m_reopsView.DataContext = m_repos ;
         }
 
 

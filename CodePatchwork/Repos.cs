@@ -23,6 +23,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 
@@ -46,6 +47,24 @@ namespace CodePatchwork
             xDoc.Save( GetFilePath() );
 
             base.Add( a_newRepo ) ;
+        }
+
+
+        public void Load( System.Windows.Forms.IWin32Window a_win, CommitDataConsumer a_commitDataConsumer )
+        {
+            XDocument xDoc = GetXDocument();
+
+            var repos = from r in xDoc.Descendants("Repo")
+                        select new Repo(a_win) {
+                            Name = r.Element("Name").Value,
+                            Path = r.Element("Path").Value,
+                            CommitDataConsumer = a_commitDataConsumer
+                        };
+
+            foreach( Repo repo in repos )
+            {
+                base.Add(repo) ;
+            }
         }
 
 
