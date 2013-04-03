@@ -93,6 +93,16 @@ namespace CodePatchwork
         }
 
 
+        private void ReopsView_KeyUp(object sender, System.Windows.Input.KeyEventArgs a_e)
+        {
+            if (Key.Delete == a_e.Key)
+            {
+                 object val =  m_reopsView.SelectedValue;
+                 m_repos.Remove(val as Repo);
+            }
+        }
+
+
         private CommitDataGridCtrlr m_commitDataGridCtrlr = new CommitDataGridCtrlr();
         private Repos m_repos = new Repos() ;
     }

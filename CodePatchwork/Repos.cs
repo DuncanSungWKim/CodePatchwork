@@ -21,9 +21,11 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 
@@ -37,6 +39,12 @@ namespace CodePatchwork
             XDocument xDoc = GetXDocument();
             XElement xElem = xDoc.Element("Repos");
 
+            // Check the same path.
+            var repos = SameRepos(xDoc, a_newRepo.Path);
+            if (repos.Count() > 0)
+                return;
+
+
             xElem.Add(
                 new XElement("Repo",
                     new XElement("Name", a_newRepo.Name),
@@ -47,6 +55,25 @@ namespace CodePatchwork
             xDoc.Save( GetFilePath() );
 
             base.Add( a_newRepo ) ;
+        }
+
+
+        new public void Remove(Repo a_repo)
+        {
+            if (null == a_repo)
+                return;
+
+            XDocument xDoc = GetXDocument();
+
+            XElement[] repos = SameRepos(xDoc, a_repo.Path).ToArray<XElement>();
+            foreach( XElement xElem in repos )
+            {
+                xElem.Remove() ;
+            }
+
+            xDoc.Save( GetFilePath() );
+
+            base.Remove(a_repo);
         }
 
 
@@ -98,6 +125,15 @@ namespace CodePatchwork
         {
             string appDataFolder = App.GetDataFolderPath();
             return Path.Combine(appDataFolder, REPOS_XML_FILENAME);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static IEnumerable<XElement> SameRepos(XDocument a_xDoc, string a_path)
+        {
+            return from r in a_xDoc.Descendants("Repo")
+                   where r.Element("Path").Value == a_path
+                   select r;
         }
 
 

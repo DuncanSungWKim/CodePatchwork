@@ -39,7 +39,7 @@
                 <MenuItem Header="_Add New Repo..."/>
             </MenuItem>
         </Menu>
-        <TreeView ItemsSource="{Binding}" x:Name="m_reopsView" Grid.Row="1" Grid.Column="0">
+        <TreeView ItemsSource="{Binding}" x:Name="m_reopsView" Grid.Row="1" Grid.Column="0" KeyUp="ReopsView_KeyUp">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
