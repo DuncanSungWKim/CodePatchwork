@@ -45,6 +45,16 @@ namespace CodePatchwork
             public long Commit { get; set; }
             public string Author { get; set; }
             public string Message { get; set; }
+
+            private bool m_checked ;
+            public bool IsChecked {
+                get {
+                    return m_checked;
+                }
+                set {
+                    m_checked = value;
+                }
+            }
         }
 
 
