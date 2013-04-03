@@ -30,13 +30,25 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="20*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="40*" />
         </Grid.ColumnDefinitions>
-        <Menu Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Top">
-            <MenuItem Header="_File" Click="Menu_AddNewRepo">
-                <MenuItem Header="_Add New Repo..."/>
+        <Menu Grid.Row="0" Grid.Column="0" VerticalAlignment="Top">
+            <MenuItem Header="_Repositories" >
+                <MenuItem Header="_Add New Repo..." Click="Menu_AddNewRepo" />
+            </MenuItem>
+        </Menu>
+        <Menu  Grid.Row="0" Grid.Column="2" VerticalAlignment="Top">
+            <MenuItem Header="_Commits">
+                <MenuItem Header="Create Patches ..."/>
+            </MenuItem>
+        </Menu>
+        <Menu  Grid.Row="0" Grid.Column="4" VerticalAlignment="Top">
+            <MenuItem Header="_Patches">
+                <MenuItem Header="Open Patch Package ..."/>
             </MenuItem>
         </Menu>
         <TreeView ItemsSource="{Binding}" x:Name="m_reopsView" Grid.Row="1" Grid.Column="0" KeyUp="ReopsView_KeyUp">
@@ -51,13 +63,20 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <GridSplitter Grid.Row="1" Grid.Column="1" Width="3" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="3" ResizeBehavior="PreviousAndNext"/>
         <DataGrid x:Name="m_commitDataGrid" Grid.Row="1" Grid.Column="2">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
                 <DataGridTextColumn Binding="{Binding Commit}" ClipboardContentBinding="{x:Null}" Header="Commit"/>
                 <DataGridTextColumn Binding="{Binding Author}" ClipboardContentBinding="{x:Null}" Header="Author"/>
                 <DataGridTextColumn Binding="{Binding Message}" ClipboardContentBinding="{x:Null}" Header="Message"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="3" ResizeBehavior="PreviousAndNext"/>
+        <DataGrid
+            Grid.Row="1" Grid.Column="4">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Message"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
