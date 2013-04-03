@@ -21,6 +21,7 @@
 */
 
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 using SharpSvn;
@@ -34,25 +35,37 @@ namespace CodePatchwork
         public DataGrid DataGrid {
             set {
                 m_dataGrid = value;
+                value.DataContext = m_commits;
             }
+        }
+
+
+        private class CommitEntry
+        {
+            public long Commit { get; set; }
+            public string Author { get; set; }
+            public string Message { get; set; }
         }
 
 
         public void Clear()
         {
-            m_dataGrid.Items.Clear();
+            m_commits.Clear();
         }
 
 
         public void OnEachLog(object a_sender, SvnLogEventArgs a_log)
         {
-            var log = new {
-                Commit = a_log.Revision,
-                Author = a_log.Author,
-                Message = a_log.LogMessage
-            };
+            CommitEntry c = new CommitEntry() ;
             
-            m_dataGrid.Items.Add(log);
+            c.Commit = a_log.Revision ;
+            c.Author = a_log.Author ;
+            c.Message = a_log.LogMessage;
+
+            m_commits.Add( c );
         }
+
+
+        private ObservableCollection<CommitEntry> m_commits = new ObservableCollection<CommitEntry>();
     }
 }

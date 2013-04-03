@@ -64,7 +64,8 @@
             </TreeView.ItemTemplate>
         </TreeView>
         <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="3" ResizeBehavior="PreviousAndNext"/>
-        <DataGrid x:Name="m_commitDataGrid" Grid.Row="1" Grid.Column="2">
+        <DataGrid x:Name="m_commitDataGrid" Grid.Row="1" Grid.Column="2"
+                  ItemsSource="{Binding}" CanUserAddRows="False" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
                 <DataGridTextColumn Binding="{Binding Commit}" ClipboardContentBinding="{x:Null}" Header="Commit"/>
