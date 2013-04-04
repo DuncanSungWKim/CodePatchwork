@@ -48,6 +48,13 @@ namespace CodePatchwork
         }
 
 
+        internal static string CreateDateTimeSuffix()
+        {
+            DateTime dt = DateTime.Now.ToLocalTime();
+            return String.Format("{0:yyyy-MM-ddTHHmmsszz}", dt);
+        }
+
+
         #region Constants
         public const string NAME = "CodePatchwork" ;
         #endregion

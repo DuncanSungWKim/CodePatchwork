@@ -100,9 +100,14 @@ namespace CodePatchwork
             if (a_commits.Count <= 0)
                 return;
 
+            string tmpFolder = System.IO.Path.GetTempPath();
+            tmpFolder = System.IO.Path.Combine( tmpFolder, App.NAME+App.CreateDateTimeSuffix() );
+            if (Directory.Exists(tmpFolder))
+                Directory.Delete(tmpFolder);
+            Directory.CreateDirectory(tmpFolder);
+
             List<string> patchFiles = new List<string>();
             SvnDiffArgs args = new SvnDiffArgs();
-            string tmpFolder = System.IO.Path.GetTempPath();
 
             foreach( long commit in a_commits )
             {
