@@ -93,6 +93,17 @@ namespace CodePatchwork
         }
 
 
+        private void Menu_CreatePatches(object sender, RoutedEventArgs e)
+        {
+            var commits = m_commitDataGridCtrlr.GetCheckedCommits();
+            object selected = m_reopsView.SelectedValue ;
+            if (selected is Repo)
+            {
+                (selected as Repo).CreatePatches(commits);
+            }
+        }
+
+
         private void ReopsView_KeyUp(object sender, System.Windows.Input.KeyEventArgs a_e)
         {
             if (Key.Delete == a_e.Key)

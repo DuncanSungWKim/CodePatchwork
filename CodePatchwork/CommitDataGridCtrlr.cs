@@ -21,7 +21,9 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows.Controls;
 
 using SharpSvn;
@@ -73,6 +75,19 @@ namespace CodePatchwork
             c.Message = a_log.LogMessage;
 
             m_commits.Add( c );
+        }
+
+
+        public List<long> GetCheckedCommits()
+        {
+            List<long> commits = new List<long>() ;
+            foreach (CommitEntry c in m_commits)
+            {
+                if (c.IsChecked)
+                    commits.Add(c.Commit);
+            }
+
+            return commits;            
         }
 
 

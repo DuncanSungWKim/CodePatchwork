@@ -43,7 +43,7 @@
         </Menu>
         <Menu  Grid.Row="0" Grid.Column="2" VerticalAlignment="Top">
             <MenuItem Header="_Commits">
-                <MenuItem Header="Create Patches ..."/>
+                <MenuItem Header="Create Patches ..." Click="Menu_CreatePatches" />
             </MenuItem>
         </Menu>
         <Menu  Grid.Row="0" Grid.Column="4" VerticalAlignment="Top">

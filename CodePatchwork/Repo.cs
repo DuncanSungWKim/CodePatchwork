@@ -22,6 +22,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.IO;
 
 using SharpSvn;
 using SharpSvn.UI;
@@ -89,6 +91,31 @@ namespace CodePatchwork
             }
             catch (Exception e)
             {
+            }
+        }
+
+
+        public void CreatePatches(List<long> a_commits)
+        {
+            if (a_commits.Count <= 0)
+                return;
+
+            List<string> patchFiles = new List<string>();
+            SvnDiffArgs args = new SvnDiffArgs();
+            string tmpFolder = System.IO.Path.GetTempPath();
+
+            foreach( long commit in a_commits )
+            {
+                SvnRevision oldRev = new SvnRevision(commit - 1);
+                SvnRevision rev = new SvnRevision(commit);
+                SvnRevisionRange revRg = new SvnRevisionRange(oldRev, rev);
+
+                string tmpFile = System.IO.Path.Combine(tmpFolder, commit.ToString()+".diff");
+                using( FileStream stm = new FileStream(tmpFile, FileMode.Create, FileAccess.Write) )
+                {
+                    m_client.Diff(Path, revRg, args, stm);
+                }
+                patchFiles.Add(tmpFile);
             }
         }
 
