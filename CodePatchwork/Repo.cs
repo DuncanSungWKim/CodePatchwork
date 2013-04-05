@@ -72,6 +72,8 @@ namespace CodePatchwork
                 if ( ! value)
                     return;
 
+                Directory.SetCurrentDirectory(Path);
+
                 LoadLog();
             }
         }
@@ -101,6 +103,8 @@ namespace CodePatchwork
             if (a_commits.Count <= 0)
                 return;
 
+            Directory.SetCurrentDirectory(Path);
+
             string pkgName = App.NAME + App.CreateDateTimeSuffix();
             string tmpFolder = System.IO.Path.GetTempPath();
             tmpFolder = System.IO.Path.Combine(tmpFolder, pkgName);
@@ -120,7 +124,7 @@ namespace CodePatchwork
                 string tmpFile = System.IO.Path.Combine(tmpFolder, commit.ToString()+".diff");
                 using( FileStream stm = new FileStream(tmpFile, FileMode.Create, FileAccess.Write) )
                 {
-                    m_client.Diff(Path, revRg, args, stm);
+                    m_client.Diff(".", revRg, args, stm);
                 }
                 patchFiles.Add(tmpFile);
             }
