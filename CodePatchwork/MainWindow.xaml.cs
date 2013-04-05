@@ -96,10 +96,15 @@ namespace CodePatchwork
         private void Menu_CreatePatches(object sender, RoutedEventArgs e)
         {
             var commits = m_commitDataGridCtrlr.GetCheckedCommits();
+
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            if ( System.Windows.Forms.DialogResult.OK != dlg.ShowDialog() )
+                return;
+
             object selected = m_reopsView.SelectedValue ;
             if (selected is Repo)
             {
-                (selected as Repo).CreatePatches(commits);
+                (selected as Repo).CreatePatches(commits, dlg.SelectedPath);
             }
         }
 

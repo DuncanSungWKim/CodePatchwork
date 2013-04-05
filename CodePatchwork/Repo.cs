@@ -27,6 +27,7 @@ using System.IO;
 
 using SharpSvn;
 using SharpSvn.UI;
+using Ionic.Zip;
 
 
 namespace CodePatchwork
@@ -95,13 +96,14 @@ namespace CodePatchwork
         }
 
 
-        public void CreatePatches(List<long> a_commits)
+        public void CreatePatches(List<long> a_commits, string a_destFolder)
         {
             if (a_commits.Count <= 0)
                 return;
 
+            string pkgName = App.NAME + App.CreateDateTimeSuffix();
             string tmpFolder = System.IO.Path.GetTempPath();
-            tmpFolder = System.IO.Path.Combine( tmpFolder, App.NAME+App.CreateDateTimeSuffix() );
+            tmpFolder = System.IO.Path.Combine(tmpFolder, pkgName);
             if (Directory.Exists(tmpFolder))
                 Directory.Delete(tmpFolder);
             Directory.CreateDirectory(tmpFolder);
@@ -121,6 +123,13 @@ namespace CodePatchwork
                     m_client.Diff(Path, revRg, args, stm);
                 }
                 patchFiles.Add(tmpFile);
+            }
+
+            using ( ZipFile zip = new ZipFile() )
+            {
+                zip.AddDirectory(tmpFolder);
+                string zipFilePath = System.IO.Path.Combine( a_destFolder, pkgName+".zip" );
+                zip.Save(zipFilePath);
             }
         }
 
