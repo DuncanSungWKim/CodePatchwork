@@ -98,8 +98,17 @@ namespace CodePatchwork
             var commits = m_commitDataGridCtrlr.GetCheckedCommits();
 
             FolderBrowserDialog dlg = new FolderBrowserDialog();
+            string PatchSaveFolder = Properties.Settings.Default.PatchSaveFolder;
+            dlg.SelectedPath = PatchSaveFolder;
             if ( System.Windows.Forms.DialogResult.OK != dlg.ShowDialog() )
                 return;
+
+            if ( 0 != String.Compare(PatchSaveFolder, dlg.SelectedPath, 
+                                     StringComparison.InvariantCultureIgnoreCase) )
+            {
+                Properties.Settings.Default.PatchSaveFolder = dlg.SelectedPath;
+                Properties.Settings.Default.Save();
+            }
 
             object selected = m_reopsView.SelectedValue ;
             if (selected is Repo)
