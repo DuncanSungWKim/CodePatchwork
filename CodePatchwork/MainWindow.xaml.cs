@@ -113,7 +113,11 @@ namespace CodePatchwork
             object selected = m_reopsView.SelectedValue ;
             if (selected is Repo)
             {
+                WaitMessagebox waitMsgbox = new WaitMessagebox(this);
+
                 (selected as Repo).CreatePatches(commits, dlg.SelectedPath);
+
+                waitMsgbox.Close();
             }
         }
 
