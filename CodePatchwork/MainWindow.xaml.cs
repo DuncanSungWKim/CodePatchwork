@@ -36,9 +36,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Microsoft.Win32;
 using System.Windows.Forms;
+using System.IO;
+
 
 using SharpSvn;
 using SharpSvn.UI;
+using Ionic.Zip;
 
 
 namespace CodePatchwork
@@ -95,8 +98,6 @@ namespace CodePatchwork
 
         private void Menu_CreatePatches(object sender, RoutedEventArgs e)
         {
-            var commits = m_commitDataGridCtrlr.GetCheckedCommits();
-
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             string PatchSaveFolder = Properties.Settings.Default.PatchSaveFolder;
             dlg.SelectedPath = PatchSaveFolder;
@@ -110,15 +111,12 @@ namespace CodePatchwork
                 Properties.Settings.Default.Save();
             }
 
-            object selected = m_reopsView.SelectedValue ;
-            if (selected is Repo)
-            {
-                WaitMessagebox waitMsgbox = new WaitMessagebox(this);
 
-                (selected as Repo).CreatePatches(commits, dlg.SelectedPath);
+            WaitMessagebox waitMsgbox = new WaitMessagebox(this);
 
-                waitMsgbox.Close();
-            }
+            CreatePackage( dlg.SelectedPath );
+
+            waitMsgbox.Close();
         }
 
 
@@ -131,6 +129,31 @@ namespace CodePatchwork
             }
         }
 
+
+        private void CreatePackage( string a_selectedPath )
+        {
+            object selected = m_reopsView.SelectedValue;
+            Repo repo = selected as Repo;
+            if( null != repo )
+            {
+                string pkgName = App.NAME + App.CreateDateTimeSuffix();
+                string tmpFolder = System.IO.Path.GetTempPath();
+                tmpFolder = System.IO.Path.Combine(tmpFolder, pkgName);
+                if (Directory.Exists(tmpFolder))
+                    Directory.Delete(tmpFolder);
+                Directory.CreateDirectory(tmpFolder);
+
+                var commits = m_commitDataGridCtrlr.GetCheckedCommits();
+                repo.CreatePatches(commits, tmpFolder);
+
+                using (ZipFile zip = new ZipFile())
+                {
+                    zip.AddDirectory(tmpFolder);
+                    string zipFilePath = System.IO.Path.Combine(a_selectedPath, pkgName + ".zip");
+                    zip.Save(zipFilePath);
+                }
+            }
+        }
 
         private CommitDataGridCtrlr m_commitDataGridCtrlr = new CommitDataGridCtrlr();
         private Repos m_repos = new Repos() ;

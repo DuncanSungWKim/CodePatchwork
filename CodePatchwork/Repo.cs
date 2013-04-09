@@ -27,7 +27,6 @@ using System.IO;
 
 using SharpSvn;
 using SharpSvn.UI;
-using Ionic.Zip;
 
 
 namespace CodePatchwork
@@ -89,7 +88,7 @@ namespace CodePatchwork
                 logArgs.Start = SvnRevision.Head ;
                 logArgs.Limit = FETCH_COUNT;
 
-                m_client.Log( Path, logArgs, 
+                m_client.Log( ".", logArgs, 
                     new EventHandler<SvnLogEventArgs>(m_commitDataConsumer.OnEachLog) );
             }
             catch (Exception e)
@@ -105,13 +104,6 @@ namespace CodePatchwork
 
             Directory.SetCurrentDirectory(Path);
 
-            string pkgName = App.NAME + App.CreateDateTimeSuffix();
-            string tmpFolder = System.IO.Path.GetTempPath();
-            tmpFolder = System.IO.Path.Combine(tmpFolder, pkgName);
-            if (Directory.Exists(tmpFolder))
-                Directory.Delete(tmpFolder);
-            Directory.CreateDirectory(tmpFolder);
-
             List<string> patchFiles = new List<string>();
             SvnDiffArgs args = new SvnDiffArgs();
 
@@ -121,7 +113,7 @@ namespace CodePatchwork
                 SvnRevision rev = new SvnRevision(commit);
                 SvnRevisionRange revRg = new SvnRevisionRange(oldRev, rev);
 
-                string tmpFile = System.IO.Path.Combine(tmpFolder, commit.ToString()+".diff");
+                string tmpFile = System.IO.Path.Combine(a_destFolder, commit.ToString() + ".diff");
                 using( FileStream stm = new FileStream(tmpFile, FileMode.Create, FileAccess.Write) )
                 {
                     m_client.Diff(".", revRg, args, stm);
@@ -129,12 +121,7 @@ namespace CodePatchwork
                 patchFiles.Add(tmpFile);
             }
 
-            using ( ZipFile zip = new ZipFile() )
-            {
-                zip.AddDirectory(tmpFolder);
-                string zipFilePath = System.IO.Path.Combine( a_destFolder, pkgName+".zip" );
-                zip.Save(zipFilePath);
-            }
+
         }
 
 
