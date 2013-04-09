@@ -144,6 +144,7 @@ namespace CodePatchwork
                 Directory.CreateDirectory(tmpFolder);
 
                 var commits = m_commitDataGridCtrlr.GetCheckedCommits();
+                m_commitDataGridCtrlr.RecordCommits(tmpFolder);
                 repo.CreatePatches(commits, tmpFolder);
 
                 using (ZipFile zip = new ZipFile())

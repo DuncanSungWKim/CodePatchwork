@@ -25,6 +25,9 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Xml.Linq;
+using System.IO;
+
 
 using SharpSvn;
 
@@ -47,6 +50,7 @@ namespace CodePatchwork
             public long Commit { get; set; }
             public string Author { get; set; }
             public string Message { get; set; }
+            public DateTime Time { get; set; }
 
             private bool m_checked ;
             public bool IsChecked {
@@ -73,6 +77,7 @@ namespace CodePatchwork
             c.Commit = a_log.Revision ;
             c.Author = a_log.Author ;
             c.Message = a_log.LogMessage;
+            c.Time = a_log.Time;
 
             m_commits.Add( c );
         }
@@ -88,6 +93,27 @@ namespace CodePatchwork
             }
 
             return commits;            
+        }
+
+
+        public void RecordCommits( string a_destFolderPath )
+        {
+            XElement xElCommits = new XElement("Commits");
+            XDocument xDoc = new XDocument(xElCommits);
+
+            foreach( CommitEntry c in m_commits )
+            {
+                XElement xCommit = new XElement( "Commit",
+                    new XAttribute( "id", c.Commit ),
+                    new XElement( "Author", c.Author ),
+                    new XElement( "Message", c.Message ),
+                    new XElement( "Time", c.Time )
+                        );
+                xElCommits.Add(xCommit);
+            }
+
+            string xmlFilePath = Path.Combine( a_destFolderPath, "Log.xml" );
+            xDoc.Save(xmlFilePath);
         }
 
 
