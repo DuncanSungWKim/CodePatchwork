@@ -125,6 +125,15 @@ namespace CodePatchwork
         }
 
 
+        public string GetPathFromRoot()
+        {
+            SvnInfoEventArgs info;
+            m_client.GetInfo(Path, out info);
+            string s = info.Uri.ToString().Remove( 0, info.RepositoryRoot.ToString().Length-1 );
+            return s ;
+        }
+
+
     #region Constants
         private const int FETCH_COUNT = 30;
     #endregion
