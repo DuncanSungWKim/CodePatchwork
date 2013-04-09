@@ -34,5 +34,17 @@ namespace CodePatchwork.Properties {
                 this["PatchSaveFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PatchOpenFolder {
+            get {
+                return ((string)(this["PatchOpenFolder"]));
+            }
+            set {
+                this["PatchOpenFolder"] = value;
+            }
+        }
     }
 }

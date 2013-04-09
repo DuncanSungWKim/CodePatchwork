@@ -48,7 +48,7 @@
         </Menu>
         <Menu  Grid.Row="0" Grid.Column="4" VerticalAlignment="Top">
             <MenuItem Header="_Patches">
-                <MenuItem Header="Open Patch Package ..."/>
+                <MenuItem Header="Open Patch Package ..." Click="Menu_OpenPatchPackage"/>
             </MenuItem>
         </Menu>
         <TreeView ItemsSource="{Binding}" x:Name="m_reopsView" Grid.Row="1" Grid.Column="0" KeyUp="ReopsView_KeyUp">

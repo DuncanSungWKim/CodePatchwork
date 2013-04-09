@@ -158,6 +158,26 @@ namespace CodePatchwork
             }
         }
 
+
+        private void Menu_OpenPatchPackage(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            string PatchOpenFolder = Properties.Settings.Default.PatchOpenFolder;
+            dlg.InitialDirectory = PatchOpenFolder;
+            dlg.Filter = "Patch Package|*.zip";
+            if ( true != dlg.ShowDialog() )
+                return;
+
+            string folderPath = Path.GetDirectoryName(dlg.FileName);
+            if ( 0 != String.Compare( PatchOpenFolder, folderPath,
+                                      StringComparison.InvariantCultureIgnoreCase) )
+            {
+                Properties.Settings.Default.PatchOpenFolder = folderPath;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
         private CommitDataGridCtrlr m_commitDataGridCtrlr = new CommitDataGridCtrlr();
         private Repos m_repos = new Repos() ;
     }
