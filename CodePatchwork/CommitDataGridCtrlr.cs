@@ -30,6 +30,7 @@ using System.IO;
 
 
 using SharpSvn;
+using SharpSvn.Implementation;
 
 
 namespace CodePatchwork
@@ -51,6 +52,8 @@ namespace CodePatchwork
             public string Author { get; set; }
             public string Message { get; set; }
             public DateTime Time { get; set; }
+            
+            public SvnChangeItemCollection ChangedPaths { get; set; }
 
             private bool m_checked ;
             public bool IsChecked {
@@ -78,6 +81,7 @@ namespace CodePatchwork
             c.Author = a_log.Author ;
             c.Message = a_log.LogMessage;
             c.Time = a_log.Time;
+            c.ChangedPaths = a_log.ChangedPaths;
 
             m_commits.Add( c );
         }
@@ -96,10 +100,11 @@ namespace CodePatchwork
         }
 
 
-        public void RecordCommits( string a_destFolderPath )
+        public HashSet<string> RecordCommits(string a_destFolderPath, string a_pathFromRoot)
         {
             XElement xElCommits = new XElement("Commits");
             XDocument xDoc = new XDocument(xElCommits);
+            HashSet<string> pathsForCopy = new HashSet<string>() ;
 
             foreach( CommitEntry c in m_commits )
             {
@@ -109,11 +114,33 @@ namespace CodePatchwork
                     new XElement( "Message", c.Message ),
                     new XElement( "Time", c.Time )
                         );
+
+                foreach (SvnChangeItem ci in c.ChangedPaths)
+                {
+                    if (SvnNodeKind.Directory == ci.NodeKind)
+                        continue;
+
+                    switch (ci.Action)
+                    {
+                        case SvnChangeAction.Add:
+                        case SvnChangeAction.Modify:
+                        case SvnChangeAction.Replace:
+                            pathsForCopy.Add( ci.Path.Remove(0, a_pathFromRoot.Length) );
+                            break;
+                            
+                        case SvnChangeAction.Delete:
+                            xCommit.Add( new XElement("Deleted", ci.Path.Remove(0, a_pathFromRoot.Length) ) );
+                            break;
+                    }
+                }
+
                 xElCommits.Add(xCommit);
             }
 
             string xmlFilePath = Path.Combine( a_destFolderPath, "Log.xml" );
             xDoc.Save(xmlFilePath);
+
+            return pathsForCopy;
         }
 
 

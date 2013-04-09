@@ -144,8 +144,10 @@ namespace CodePatchwork
                 Directory.CreateDirectory(tmpFolder);
 
                 var commits = m_commitDataGridCtrlr.GetCheckedCommits();
-                m_commitDataGridCtrlr.RecordCommits(tmpFolder);
                 repo.CreatePatches(commits, tmpFolder);
+
+                HashSet<string> pathsForCopy = m_commitDataGridCtrlr.RecordCommits( tmpFolder, repo.GetPathFromRoot() );
+                repo.CopyFiles(pathsForCopy, tmpFolder);
 
                 using (ZipFile zip = new ZipFile())
                 {

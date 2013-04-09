@@ -134,7 +134,22 @@ namespace CodePatchwork
         }
 
 
+        public void CopyFiles(HashSet<string> a_paths, string a_destFolderPath)
+        {
+            string rootFolder = System.IO.Path.Combine(a_destFolderPath, FILES_FOLDER);
+            Directory.CreateDirectory(rootFolder);
+
+            foreach (string path in a_paths)
+            {
+                string path2 = path.Replace("/", @"\");
+                if (!File.Exists(path2))
+                    continue;
+                App.CopyFileToFolder(path2, rootFolder);
+            }
+        }
+
     #region Constants
+        private const string FILES_FOLDER = "FILES";
         private const int FETCH_COUNT = 30;
     #endregion
 

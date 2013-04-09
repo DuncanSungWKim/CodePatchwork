@@ -55,6 +55,30 @@ namespace CodePatchwork
         }
 
 
+        internal static void CopyFileToFolder( string a_sourFilePath, string a_destFolder )
+        {
+            List<string> steps = a_sourFilePath.Split( new char[] {'\\', '/'} ).ToList();
+
+            if (steps.Count <= 0)
+                return;
+
+            int iLast = steps.Count - 1;
+            string fileName = steps[iLast];
+            steps.RemoveAt(iLast);
+
+            string stepPath = a_destFolder;
+            foreach( string step in steps )
+            {
+                stepPath = Path.Combine(stepPath, step);
+                if ( ! Directory.Exists(stepPath))
+                    Directory.CreateDirectory(stepPath);
+            }
+
+            string filePath = Path.Combine(stepPath, fileName);
+            File.Copy(a_sourFilePath, filePath);
+        }
+
+
         #region Constants
         public const string NAME = "CodePatchwork" ;
         #endregion
