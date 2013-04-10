@@ -47,12 +47,8 @@ namespace CodePatchwork
 
 
         private class CommitEntry
+            : CommitEntryBase
         {
-            public long Commit { get; set; }
-            public string Author { get; set; }
-            public string Message { get; set; }
-            public DateTime Time { get; set; }
-            
             public SvnChangeItemCollection ChangedPaths { get; set; }
 
             private bool m_checked ;
