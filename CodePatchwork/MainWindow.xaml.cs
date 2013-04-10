@@ -140,7 +140,7 @@ namespace CodePatchwork
                 string tmpFolder = System.IO.Path.GetTempPath();
                 tmpFolder = System.IO.Path.Combine(tmpFolder, pkgName);
                 if (Directory.Exists(tmpFolder))
-                    Directory.Delete(tmpFolder);
+                    Directory.Delete(tmpFolder,true);
                 Directory.CreateDirectory(tmpFolder);
 
                 var commits = m_commitDataGridCtrlr.GetCheckedCommits();
@@ -174,6 +174,21 @@ namespace CodePatchwork
             {
                 Properties.Settings.Default.PatchOpenFolder = folderPath;
                 Properties.Settings.Default.Save();
+            }
+
+            string zipFileName = Path.GetFileNameWithoutExtension(dlg.FileName);
+            string extractFolder = System.IO.Path.GetTempPath();
+            extractFolder = Path.Combine(extractFolder, zipFileName);
+            if (Directory.Exists(extractFolder))
+                Directory.Delete(extractFolder, true);
+            Directory.CreateDirectory(extractFolder);
+
+            using ( ZipFile zipFile = ZipFile.Read(dlg.FileName) )
+            {
+                foreach( ZipEntry ze in zipFile )
+                {
+                    ze.Extract(extractFolder, ExtractExistingFileAction.OverwriteSilently);
+                }
             }
         }
 
