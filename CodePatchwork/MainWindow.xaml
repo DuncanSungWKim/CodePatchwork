@@ -80,7 +80,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="3" ResizeBehavior="PreviousAndNext"/>
-        <DataGrid
+        <DataGrid x:Name="m_patchDataGrid"
             Grid.Row="1" Grid.Column="4">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Message"/>

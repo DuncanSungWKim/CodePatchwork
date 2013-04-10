@@ -65,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="CommitDataConsumer.cs" />
     <Compile Include="CommitDataGridCtrlr.cs" />
+    <Compile Include="PatchDataGridCtrlr.cs" />
     <Compile Include="Repo.cs" />
     <Compile Include="Repos.cs" />
     <Compile Include="Settings.cs" />

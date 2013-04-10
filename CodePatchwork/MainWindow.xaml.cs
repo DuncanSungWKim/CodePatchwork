@@ -57,6 +57,7 @@ namespace CodePatchwork
             InitializeComponent();
 
             m_commitDataGridCtrlr.DataGrid = m_commitDataGrid;
+            m_patchDataGridCtrlr.DataGrid = m_patchDataGrid;
 
             InitReposView();
         }
@@ -190,10 +191,16 @@ namespace CodePatchwork
                     ze.Extract(extractFolder, ExtractExistingFileAction.OverwriteSilently);
                 }
             }
+
+            if ( ! m_patchDataGridCtrlr.Load(extractFolder) )
+            {
+                System.Windows.MessageBox.Show("Failed to open the patch package.");
+            }
         }
 
 
         private CommitDataGridCtrlr m_commitDataGridCtrlr = new CommitDataGridCtrlr();
+        private PatchDataGridCtrlr m_patchDataGridCtrlr = new PatchDataGridCtrlr();
         private Repos m_repos = new Repos() ;
     }
 }
